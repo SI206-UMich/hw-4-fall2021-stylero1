@@ -212,16 +212,23 @@ class TestAllMethods(unittest.TestCase):
         inventory = {"Burger":40, "Taco":50}
 
         cc1 = Customer("Andrew")
-        cc2 = Customer("Andrew", 1)
+        cc2 = Customer("Andrew", 5)
+        cc3 = Customer("Andrew", 50)
         
-		# case 1: test if a customer doesn't have enough money in their wallet to order
-        self.assertEqual(cc2.validate_order(self.c1, Stall("Big House", inventory), "Burger", 1), None)
-        
-		# case 2: test if the stall doesn't have enough food left in stock
-        self.assertEqual(cc1.validate_order(self.c2, self.s1, "Salad", 1), None)
-
-		# case 3: check if the cashier can order item from that stall
+		#Test case 1: test if a customer doesn't have enough money in their wallet to order      
         self.assertEqual(cc2.validate_order(self.c2, self.s2, "Burger", 10), None)
+        #Test case 1a: test if a customer does have enough money in their wallet to order
+        self.assertEqual(cc3.validate_order(self.c2, self.s2, "Burger", 1), None)
+
+		#Test case 2: test if the stall doesn't have enough food left in stock
+        self.assertEqual(cc1.validate_order(self.c2, self.s1, "Salad", 1), None)
+        #Test case 2a: test if the stall does have enough food left in stock
+        self.assertEqual(cc1.validate_order(self.c2, self.s1, "Taco", 1), None)
+
+		#Test case 3: check if the cashier can order item from that stall        
+        self.assertEqual(cc1.validate_order(self.c1, Stall("Big House", inventory), "Burger", 1), None)
+        #Test case 3a: check if the cashier can actually order item from that stall
+        self.assertEqual(cc1.validate_order(self.c1, self.s1, "Burger", 1), None)
         
 
     # Test if a customer can add money to their wallet
